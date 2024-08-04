@@ -17,16 +17,6 @@ struct ConnectedDeviceView: View {
         
         List {
             Section {
-                Text(peripheral?.peripheral.name ?? "Unknown Device")
-                    .font(.title)
-                    .foregroundColor(.gray)
-                
-                Text(peripheral?.advertisedData ?? "No data")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-            }
-            
-            Section {
                 if let rssi = peripheral?.rssi {
                     let rssiPercentage = rssiToPercentage(rssi: rssi)
                     let symbolValue = Double(rssiPercentage) / 100.0
@@ -40,6 +30,12 @@ struct ConnectedDeviceView: View {
                     }.badge("\(rssiPercentage)%")
                 }
                 
+                Text(peripheral?.advertisedData ?? "No data")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+            
+            Section {
                 if let sensorData = peripheral?.sensorData {
                     Text("Temperature: \(String(format: "%.2f", sensorData.temperature)) ℃")
                     Text("Pressure: \(String(format: "%.0f", sensorData.pressure)) hPa")
@@ -68,6 +64,7 @@ struct ConnectedDeviceView: View {
                 
             }
         }
+        .navigationTitle(peripheral?.peripheral.name ?? "Unknown Device")
         .onAppear {
             locationManager.requestLocation()
             
