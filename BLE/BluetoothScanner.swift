@@ -116,6 +116,7 @@ class BluetoothScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
                 self.peripheralsManager.connectedPeripheral?.writeSuccess = true
             }
         }
+        peripheralsManager.connectedPeripheral?.isWritePending = false
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {

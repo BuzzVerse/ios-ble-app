@@ -54,13 +54,19 @@ struct ConnectedDeviceView: View {
                         longitude: location.coordinate.longitude
                     )
                 }) {
-                    Text("Send Location Data")
+                    HStack {
+                        Text("Send Location Data")
+                        Spacer()
+                        if let isWritePending = peripheralsManager.connectedPeripheral?.isWritePending {
+                            isWritePending ? ProgressView() : nil
+                        }
+                        if let writeSuccess = peripheral?.writeSuccess {
+                            Text(writeSuccess ? "✅" : "🛑")
+                        }
+                    }
                 }
                 
-                if let writeSuccess = peripheral?.writeSuccess {
-                    Text(writeSuccess ? "Write Success" : "Write Failed")
-                        .foregroundColor(writeSuccess ? .green : .red)
-                }
+                
                 
             }
         }
@@ -75,11 +81,15 @@ struct ConnectedDeviceView: View {
     }
     
     func sendLocationData(latitude: Double, longitude: Double) {
+        peripheralsManager.connectedPeripheral?.writeSuccess = nil
+        peripheralsManager.connectedPeripheral?.isWritePending = true
+        
         guard let peripheral = peripheralsManager.connectedPeripheral?.peripheral,
               let characteristic = peripheralsManager.connectedPeripheral?.locationCharacteristic else {
             peripheralsManager.connectedPeripheral?.writeSuccess = false
             return
         }
+
         let locationData = LocationData(latitude: latitude, longitude: longitude)
         let dataToSend = locationData.toData()
         peripheral.writeValue(dataToSend, for: characteristic, type: .withResponse)
