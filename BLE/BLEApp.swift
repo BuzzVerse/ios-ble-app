@@ -11,7 +11,7 @@ import SwiftUI
 struct BLEApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            DevicesListView()
         }
     }
 }
