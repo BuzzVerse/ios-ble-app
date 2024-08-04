@@ -18,8 +18,13 @@ struct DevicesListView: View {
                 Button(action: {
                     bluetoothScanner.connectToPeripheral(peripheral.peripheral)
                 }) {
-                    Text(peripheral.peripheral.name ?? "Unknown Device")
-                }.buttonStyle(PlainButtonStyle())
+                    HStack {
+                        Text(peripheral.peripheral.name ?? "Unknown Device")
+                        Spacer()
+                        Image(systemName: "chevron.forward")
+                    }.contentShape(Rectangle())
+                }
+                .buttonStyle(PlainButtonStyle())
             }
             .overlay(
                 bluetoothScanner.isConnecting ?
