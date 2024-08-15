@@ -20,18 +20,21 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         super.init()
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.distanceFilter = 10
     }
     
     func requestLocation() {
-        self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
-        startUpdatingLocation()
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+        locationManager.startMonitoringSignificantLocationChanges()
+        locationManager.pausesLocationUpdatesAutomatically = false
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.showsBackgroundLocationIndicator = true
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         self.location = location
-        self.locationManager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -45,14 +48,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         print("Failed to get user location: \(error.localizedDescription)")
     }
     
-    func startUpdatingLocation() {
-        updateTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) { [weak self] _ in
-            self?.locationManager.startUpdatingLocation()
-        }
-    }
-    
     func stopUpdatingLocation() {
-        updateTimer?.invalidate()
-        updateTimer = nil
+        self.locationManager.stopUpdatingLocation()
     }
 }

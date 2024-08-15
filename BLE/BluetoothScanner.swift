@@ -24,8 +24,8 @@ class BluetoothScanner: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
         isConnecting = false
         if centralManager.state == .poweredOn {
             discoveredPeripherals.removeAll()
-            //centralManager.scanForPeripherals(withServices: [CBUUID(string: "FACE")])
-            centralManager.scanForPeripherals(withServices: nil)
+            centralManager.scanForPeripherals(withServices: [CBUUID(string: "FACE")])
+            //centralManager.scanForPeripherals(withServices: nil)
         }
     }
     

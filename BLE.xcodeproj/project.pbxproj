@@ -21,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		833BA53C2C6BBEB20018714A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		834929122C308E8D00BCF00A /* BLE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		834929152C308E8D00BCF00A /* BLEApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEApp.swift; sourceTree = "<group>"; };
 		834929192C308E8E00BCF00A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -65,6 +66,7 @@
 		834929142C308E8D00BCF00A /* BLE */ = {
 			isa = PBXGroup;
 			children = (
+				833BA53C2C6BBEB20018714A /* Info.plist */,
 				83DEAA692C5FBBF9004D306C /* Models */,
 				83DEAA642C5FB723004D306C /* Views */,
 				834929152C308E8D00BCF00A /* BLEApp.swift */,
@@ -319,6 +321,7 @@
 				DEVELOPMENT_TEAM = Q879562M8W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BLE/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "BV BLE 🐝";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Scan BT";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = 1;
@@ -352,6 +355,7 @@
 				DEVELOPMENT_TEAM = Q879562M8W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BLE/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "BV BLE 🐝";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Scan BT";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = 1;

@@ -48,10 +48,14 @@ struct ConnectedDeviceView: View {
             if let location = locationManager.location {
                 Text("Latitude: \(location.coordinate.latitude)")
                 Text("Longitude: \(location.coordinate.longitude)")
+                
+                let latitude = location.coordinate.latitude * 100000
+                let longitude = location.coordinate.longitude * 100000
+                
                 Button(action: {
                     sendLocationData(
-                        latitude: location.coordinate.latitude,
-                        longitude: location.coordinate.longitude
+                        latitude: Int32(latitude),
+                        longitude: Int32(longitude)
                     )
                 }) {
                     HStack {
@@ -65,33 +69,44 @@ struct ConnectedDeviceView: View {
                         }
                     }
                 }
-                
-                
-                
             }
         }
         .navigationTitle(peripheral?.peripheral.name ?? "Unknown Device")
         .onAppear {
             locationManager.requestLocation()
-            
         }
         .onDisappear {
             locationManager.stopUpdatingLocation()
         }
+        .onChange(of: locationManager.location) {
+            guard let location = locationManager.location,
+                  let peripheral = peripheralsManager.connectedPeripheral,
+                  !peripheral.isWritePending,
+                  peripheral.locationCharacteristic != nil else { return }
+            
+            let latitude = location.coordinate.latitude * 100000
+            let longitude = location.coordinate.longitude * 100000
+                
+            sendLocationData(
+                latitude: Int32(latitude),
+                longitude: Int32(longitude)
+            )
+        }
     }
     
-    func sendLocationData(latitude: Double, longitude: Double) {
+    func sendLocationData(latitude: Int32, longitude: Int32) {
         peripheralsManager.connectedPeripheral?.writeSuccess = nil
-        peripheralsManager.connectedPeripheral?.isWritePending = true
-        
         guard let peripheral = peripheralsManager.connectedPeripheral?.peripheral,
               let characteristic = peripheralsManager.connectedPeripheral?.locationCharacteristic else {
             peripheralsManager.connectedPeripheral?.writeSuccess = false
             return
         }
+        
+        peripheralsManager.connectedPeripheral?.isWritePending = true
 
-        let locationData = LocationData(latitude: latitude, longitude: longitude)
+        let locationData = LocationData(status: 1, altitude: 1, latitude: latitude, longitude: longitude)
         let dataToSend = locationData.toData()
+        
         peripheral.writeValue(dataToSend, for: characteristic, type: .withResponse)
     }
     
